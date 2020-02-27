@@ -1,0 +1,53 @@
+    1  cd /workspace/sandbox-germany; clear
+    2  export LANG=en_US.UTF-8;export LANGUAGE=en_US.UTF-8;locale-gen;source ~/.profile; [ ! -f ~/.custom_env ] || source ~/.custom_env; clear;
+    3  cd /workspace/sandbox-germany; clear
+    4  mkdir sos1920-labs
+    5  cd sos1920-labs/
+    6  echo "# sos1920-labs" >> README.md
+    7  ls
+    8  git init
+    9  git add README.md
+   10  ls -la
+   11  git commit -m "first commit"
+   12  git config --global user.name "pacomc"
+   13  git commit -m "first commit"
+   14  ls
+   15  cd /workspace/sandbox-germany; clear
+   16  export LANG=en_US.UTF-8;export LANGUAGE=en_US.UTF-8;locale-gen;source ~/.profile; [ ! -f ~/.custom_env ] || source ~/.custom_env; clear;
+   17  cd /workspace/sandbox-germany; clear
+   18  ls
+   19  set
+   20  cd sos1920-labs/
+   21  git commit -m "first commit"
+   22  git remote add origin https://github.com/pacomc/sos1920-labs.git
+   23  git push -u origin master
+   24  ls
+   25  git commit -m "first commit"
+   26  git commit -m "second commit"
+   27  git push -u origin master
+   28  git checkout -b l04
+   29  git add .
+   30  git commit -m "l04"
+   31  git push -u origin l04
+   32  git add .
+   33  git commit -m "l04"
+   34  git push -u origin l04
+   35  npm -v
+   36  npm init 
+   37  ls
+   38  touch index.js
+   39  node index.js 
+   40  npm start
+   41  git add .
+   42  git commit -m "l04"
+   43  git push -u origin l04
+   44  npm install cool-ascii-faces --save
+   45  ls
+   46  npm start
+   47  touch .gitignore
+   48  git add .
+   49  git commit -m  "gitignore file created"
+   50  git push
+   51  npm install express --save
+   52  npm start
+   53  history > history-l04.txt
