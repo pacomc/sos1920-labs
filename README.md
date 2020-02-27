@@ -1,2 +1,2 @@
-# sos1920-labs
-Este es el repositorio de los laboratorios de SOS1920
+# sos1920-L04
+Este es el repositorio de los laboratorios de SOS1920.
