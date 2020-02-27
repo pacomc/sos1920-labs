@@ -1,1 +1,4 @@
-console.log("Hello world! I'm a great NodeJ developer!!");
+var cool = require("cool-ascii-faces");
+
+
+console.log(cool());
