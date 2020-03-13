@@ -1,14 +1,18 @@
-var express = require("express");
-
-var cool = require("cool-ascii-faces");
-
+const cool = require("cool-ascii-faces");
+const express = require("express");
 
 var app = express();
 
-app.get("/recurso", (req, res) => {
-	res.send("<html><body>Hello world!</body></html>");
+var port = process.env.PORT || 80;
+
+app.use("/",express.static("./public"));
+
+app.get("/cool",(request,response) => {
+	response.send("<html>"+cool()+"</html>");
 });
 
-app.listen(80);
+app.listen(port, () => {
+	console.log("Server ready");
+});
 
-console.log("Server ready!");
+console.log("Starting server...");
