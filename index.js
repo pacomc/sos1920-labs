@@ -9,54 +9,119 @@ app.use(bodyParser.json()); // todo lo que te llega a la api lo traduce a json a
 var port = process.env.PORT || 80;
 
 var contacts = [
-	{
-		"country": "Spain",
-		"year": "2016",
-		"percentage-re-total": "38.1",
-		"percentage-hydropower-total": "14.5",
-		"percentage-wind-power-total": "17.8"	
+	{ 
+		name: "peter",
+		phone: 123456	
 	},
-	{
-		"country": "France",
-		"year": "2016",
-		"percentage-re-total": "17.5",
-		"percentage-hydropower-total": "11.7",
-		"percentage-wind-power-total": "3.8"	
-	},
-	{
-		"country": "Russia",
-		"year": "2016",
-		"percentage-re-total": "16.9",
-		"percentage-hydropower-total": "17.0",
-		"percentage-wind-power-total": "0.0"	
-	},
-	{
-		"country": "Canada",
-		"year": "2016",
-		"percentage-re-total": "65.0",
-		"percentage-hydropower-total": "58.0",
-		"percentage-wind-power-total": "4.6"	
-	},
-	{
-		"country": "Greece",
-		"year": "2016",
-		"percentage-re-total": "27.4",
-		"percentage-hydropower-total": "42.7",
-		"percentage-wind-power-total": "9.5"	
+	{ 
+		name: "pablo",
+		phone: 789456	
 	}
-	
 ];
 
 const BASE_API_URL =  "/api/v1";
 
-app.get(BASE_API_URL + "/contacts", (req, res) => {
-	res.send(JSON.stringify(contacts, null, 2)); // el tercer parametro es para que lo indente
+// GET CONTACTS
+
+app.get(BASE_API_URL+"/contacts", (req,res) =>{
+	res.send(JSON.stringify(contacts,null,2));
+	//console.log("Data sent:"+JSON.stringify(contacts,null,2));
 });
 
-app.post(BASE_API_URL + "/contacts", (req, res) => {
-	contacts.push(req.body);
-	res.sendStatus(201, "CREATED");
+
+// POST CONTACTS
+
+app.post(BASE_API_URL+"/contacts",(req,res) =>{
+	
+	var newContact = req.body; // Cogemos el body de la request http (que debe tener un contacto en json)
+	//console.log(newContact);
+	
+	if((newContact == {}) || (newContact.name == null)){
+		res.sendStatus(400,"BAD REQUEST");
+	} else {
+		contacts.push(newContact); 	
+		res.sendStatus(201,"CREATED");
+	}
 });
+
+// DELETE CONTACTS
+
+app.delete(BASE_API_URL+"/contacts",(req,res) =>{	
+	contacts = [];
+	res.sendStatus(200);
+
+});
+
+
+// GET CONTACTS/XXX
+
+app.get(BASE_API_URL+"/contacts/:name", (req,res) =>{
+	
+	var name = req.params.name; //params contiene todos los parametros
+	
+	var filteredContacts = contacts.filter((c) => {
+		return (c.name == name)
+	});
+	
+	if(filteredContacts.length >= 1) {
+		res.send(filteredContacts[0]);	
+	} else {
+		res.sendStatus(404, "CONTACT NOT FOUND");
+	}
+	
+});
+
+
+// PUT CONTACTS/XXX
+app.put(BASE_API_URL+"/contacts/:name", (req,res) =>{
+		
+	var params = req.params;
+	var name = params.name;
+	
+	var body = req.body;
+	
+	var updatedContacts = contacts.map((c) => {
+		var updatedC = c;
+		
+		if (c.name == name) {
+			for (var p in body) {
+				updatedC[p] = body[p];
+			}	
+		}
+		
+		
+		return (updatedC)
+		
+	});
+	
+	if (updatedContacts.length == 0) {
+		res.sendStatus(404, "CONTACT NOT FOUND");
+	} else {
+		contacts = updatedContacts;
+		res.sendStatus(200, "OK");
+	}
+	
+});
+
+// DELETE CONTACTS/XXX
+app.delete(BASE_API_URL+"/contacts/:name",(req,res) =>{
+	
+	var name = req.params.name; //params contiene todos los parametros
+	
+	var filteredContacts = contacts.filter((c) => {
+		return (c.name != name)
+	});
+	
+	if(filteredContacts.length < contacts.length) {
+		contacts = filteredContacts;
+		res.sendStatus(200);
+		
+	} else {
+		res.sendStatus(404, "CONTACT NOT FOUND");
+	}
+});
+
+
 
 app.listen(port, () => {
 	console.log("Server ready");
